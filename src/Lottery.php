@@ -23,7 +23,6 @@ class Lottery{
             Constants::MEGA_SENA => new MegaSena(),
             Constants::QUINA => new Quina(),
             Constants::LOTOFACIL => new Lotofacil(),
-            Constants::DUPLA_SENA => new DuplaSena(),
             Constants::LOTOMANIA => new Lotomania(),
             Constants::TIMEMANIA => new Timemania(),
             Constants::DIA_DE_SORTE => new DiaDeSorte(),
