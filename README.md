@@ -3,7 +3,7 @@
 # Install
 
 ```
-composer install
+composer install or php composer.phar install
 ```
 
 # Execute
