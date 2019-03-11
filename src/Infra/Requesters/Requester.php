@@ -8,8 +8,7 @@ class Requester
 
     public static function getResult(string $url): array
     {
-        $result = file_get_contents($url);
-        return json_decode($result, true);
+        return json_decode(file_get_contents($url), true);
     }
 
 }
