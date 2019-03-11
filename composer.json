@@ -1,0 +1,19 @@
+{
+    "name": "guil05/gambing-games",
+    "description": "Gamging games generator",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guilherme Rodrigues",
+            "email": "guilhermerodriguestb@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
