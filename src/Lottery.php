@@ -91,12 +91,17 @@ class Lottery{
         return $this->treateResult();
     }
 
+    private function formatNumber(int $number): string
+    {
+        return str_pad($number, 2, "0", STR_PAD_LEFT);
+    }
+
     private function treateResultArray(): string
     {
         $result = '';
         for($i = 0; $i < count($this->result['sorteio']); $i++){
             foreach ($this->result['sorteio'][$i] as &$number){
-                $number = str_pad($number, 2, "0", STR_PAD_LEFT);
+                $number = $this->formatNumber($number);
             }
             $result .= ($i +1).'º Sorteio :'.join(', ', $this->result['sorteio'][$i]).PHP_EOL;
         }
@@ -106,7 +111,7 @@ class Lottery{
     private function treateResult(): string
     {
         foreach ($this->result['sorteio'] as &$number){
-            $number = str_pad($number, 2, "0", STR_PAD_LEFT);
+            $number = $this->formatNumber($number);
         }
 
         return join(', ', $this->result['sorteio']);
