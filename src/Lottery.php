@@ -85,10 +85,10 @@ class Lottery{
     private function getNumbers(): string
     {
         if(is_array($this->result['sorteio'][0])){
-            return $this->treateResultArray();
+            return $this->treatResultArray();
         }
 
-        return $this->treateResult();
+        return $this->treatResult();
     }
 
     private function formatNumber(int $number): string
@@ -96,23 +96,28 @@ class Lottery{
         return str_pad($number, 2, "0", STR_PAD_LEFT);
     }
 
-    private function treateResultArray(): string
+    private function treatListResult(array &$numbers)
+    {
+        foreach ($numbers as &$number){
+            $number = $this->formatNumber($number);
+        }
+    }
+
+    private function treatResultArray(): string
     {
         $result = '';
+
         for($i = 0; $i < count($this->result['sorteio']); $i++){
-            foreach ($this->result['sorteio'][$i] as &$number){
-                $number = $this->formatNumber($number);
-            }
-            $result .= ($i +1).'º Sorteio :'.join(', ', $this->result['sorteio'][$i]).PHP_EOL;
+            $this->treatListResult($this->result['sorteio'][$i]);
+            $result .= ($i +1).'º Sorteio: '.join(', ', $this->result['sorteio'][$i]).PHP_EOL;
         }
+
         return PHP_EOL.$result;
     }
 
-    private function treateResult(): string
+    private function treatResult(): string
     {
-        foreach ($this->result['sorteio'] as &$number){
-            $number = $this->formatNumber($number);
-        }
+        $this->treatListResult($this->result['sorteio']);
 
         return join(', ', $this->result['sorteio']);
     }
@@ -127,6 +132,7 @@ class Lottery{
         if(is_array($this->result['ganhadores'][0])){
             return $this->getWinnersArray();
         }
+
         return $this->result['ganhadores'][0];
     }
 
