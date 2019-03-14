@@ -6,9 +6,8 @@
 composer install or php composer.phar install
 ```
 
-# Execute
+# Execute in terminal
 
 ```
-cd public
-php index.php
+make run
 ```
