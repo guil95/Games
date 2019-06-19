@@ -79,7 +79,8 @@ class Lottery{
         echo PHP_EOL.'Jogo: '. $this->game->getName();
         echo PHP_EOL.'Data: '.$this->getDate();
         echo PHP_EOL.'Números Sorteados: '.$this->getNumbers();
-        echo PHP_EOL.'Quantidade de ganhadores: '.$this->getWinners().PHP_EOL;
+        echo PHP_EOL.'Quantidade de ganhadores: '.$this->getWinners();
+        echo PHP_EOL.'Estimativa próximo concurso: '.$this->getNextValue().PHP_EOL;
     }
 
     private function getNumbers(): string
@@ -144,5 +145,10 @@ class Lottery{
         }
 
         return PHP_EOL.$winners;
+    }
+
+    private function getNextValue(): string
+    {
+        return isset($this->result['proximo_estimativa']) ? 'R$ '.number_format($this->result['proximo_estimativa'],2,',','.') : 0;
     }
 }
