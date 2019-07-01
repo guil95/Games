@@ -11,9 +11,10 @@ use App\Games\Lotomania;
 use App\Games\MegaSena;
 use App\Games\Quina;
 use App\Games\Timemania;
+use App\Infra\Mail;
 use App\Infra\Requesters\Requester;
 
-class Lottery
+final class Lottery
 {
     private $games = [];
     private $result;
@@ -58,6 +59,7 @@ class Lottery
         $this->setGame();
         $this->setResult();
         $this->showResultGame();
+        $this->sendResult();
     }
 
     private function printOptions()
@@ -94,11 +96,21 @@ class Lottery
 
     private function showResultGame()
     {
-        echo PHP_EOL . 'Jogo: ' . $this->game->getName();
-        echo PHP_EOL . 'Data: ' . $this->getDate();
-        echo PHP_EOL . 'Números Sorteados: ' . $this->retrieveNumbers();
-        echo PHP_EOL . 'Quantidade de ganhadores: ' . $this->getWinners();
-        echo PHP_EOL . 'Estimativa próximo concurso: ' . $this->getNextValue() . PHP_EOL;
+        echo $this->resultToString();
+    }
+
+    private function sendResult()
+    {
+        Mail::send($this->resultToString(), $this->game);
+    }
+
+    public function resultToString(): string
+    {
+        return PHP_EOL . 'Jogo: ' . $this->game->getName().
+        PHP_EOL . 'Data: ' . $this->getDate().
+        PHP_EOL . 'Números Sorteados: ' . $this->retrieveNumbers().
+        PHP_EOL . 'Quantidade de ganhadores: ' . $this->getWinners().
+        PHP_EOL . 'Estimativa para o próximo concurso: ' . $this->getNextValue() . PHP_EOL;
     }
 
     /**
