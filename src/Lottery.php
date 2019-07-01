@@ -12,6 +12,7 @@ use App\Games\MegaSena;
 use App\Games\Quina;
 use App\Games\Timemania;
 use App\Infra\Requesters\Requester;
+use http\Exception\InvalidArgumentException;
 
 class Lottery
 {
@@ -75,13 +76,14 @@ class Lottery
         do {
             echo "\nSelect the game:\n";
             $game = trim(fgets(STDIN));
-            $this->game = $this->games[$game];
         } while (
             !in_array(
                 $game,
                 array_keys($this->games)
             )
         );
+
+        $this->game = $this->games[$game];
     }
 
     private function setResult()
