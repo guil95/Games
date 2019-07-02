@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infra;
+namespace App\Infra\Requesters;
 
 
 use App\Games\Game;
