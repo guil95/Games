@@ -76,7 +76,7 @@ final class Lottery
     private function setGame()
     {
         do {
-            $game = GamesCLI::inputMessage('Select the game:');
+            $game = (int) GamesCLI::inputMessage('Select the game:');
         } while (
             !in_array(
                 $game,
