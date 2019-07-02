@@ -8,31 +8,55 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
-    public static function send(string $body, Game $game)
+    private $mail;
+
+    private function __construct(string $body, Game $game, string $email)
     {
         try {
-            $mail = new PHPMailer(true);
-            $mail->SMTPDebug = 2;
-            $mail->isSMTP();
-            $mail->CharSet = 'UTF-8';
-            $mail->Host = 'smtp.live.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'EMAIL';
-            $mail->Password = 'SENHA';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 465;
 
-            $mail->setFrom('EMAIL', 'Games');
-            $mail->addAddress('EMAIL');
+            $conf = require_once('../conf.php');
 
-            $mail->isHTML(true);
+            echo 'Enviando... '.PHP_EOL;
 
-            $mail->Subject = $game->getName();
-            $mail->Body = $body;
+            $this->mail = new PHPMailer(true);
+            $this->mail->SMTPDebug = 0;
+            $this->mail->isSMTP();
+            $this->mail->CharSet = 'UTF-8';
+            $this->mail->Host = $conf['EMAIL_HOST'];
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = $conf['EMAIL'];
+            $this->mail->Password = $conf['EMAIL_PASSWORD'];
+            $this->mail->SMTPSecure = $conf['EMAIL_SMTP_SECURE'];
+            $this->mail->Port = $conf['EMAIL_PORT'];
 
-            $mail->send();
+            $this->mail->setFrom($conf['EMAIL'], 'Games');
+
+            $this->addEmailsToSend($email);
+
+            $this->mail->isHTML(true);
+
+            $this->mail->Subject = $game->getName();
+            $this->mail->Body = $body;
+
+            if ($this->mail->send()) {
+                echo 'E-mail enviado! '.PHP_EOL;
+            }
         } catch (\Exception $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public static function send(string $body, Game $game, string $email)
+    {
+        new self($body, $game, $email);
+    }
+    
+    private function addEmailsToSend(string $emails)
+    {
+        $emails = explode(',', $emails);
+        
+        foreach ($emails as $email) {
+            $this->mail->addAddress(trim($email));
         }
     }
 }

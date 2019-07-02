@@ -59,7 +59,7 @@ final class Lottery
         $this->setGame();
         $this->setResult();
         $this->showResultGame();
-        $this->sendResult();
+        $this->verifySendResult();
     }
 
     private function printOptions()
@@ -96,21 +96,52 @@ final class Lottery
 
     private function showResultGame()
     {
-        echo $this->resultToString();
+        echo $this->resultToConsole();
     }
 
-    private function sendResult()
+    private function verifySendResult()
     {
-        Mail::send($this->resultToString(), $this->game);
+        do {
+            echo "\nEnviar via email? [y,n]\n";
+            $sendMail = strtoupper(trim(fgets(STDIN)));
+        } while (
+            !in_array(
+                $sendMail,
+                ['Y','N']
+            )
+        );
+
+        $this->sendEmail($sendMail);
     }
 
-    public function resultToString(): string
+    private function sendEmail(string $sendMail)
+    {
+        if ($sendMail === 'N') {
+            return false;
+        }
+
+        echo "\nDigite o email: \n";
+        $email = trim(fgets(STDIN));
+
+        Mail::send($this->resultToEmail(), $this->game, $email);
+    }
+
+    private function resultToConsole(): string
     {
         return PHP_EOL . 'Jogo: ' . $this->game->getName().
         PHP_EOL . 'Data: ' . $this->getDate().
         PHP_EOL . 'Números Sorteados: ' . $this->retrieveNumbers().
         PHP_EOL . 'Quantidade de ganhadores: ' . $this->getWinners().
         PHP_EOL . 'Estimativa para o próximo concurso: ' . $this->getNextValue() . PHP_EOL;
+    }
+
+    private function resultToEmail(): string
+    {
+        return '<br> Jogo: ' . $this->game->getName().
+            '<br> Data: ' . $this->getDate().
+            '<br> Números Sorteados: ' . $this->retrieveNumbers().
+            '<br> Quantidade de ganhadores: ' . $this->getWinners().
+            '<br> Estimativa para o próximo concurso: ' . $this->getNextValue();
     }
 
     /**
