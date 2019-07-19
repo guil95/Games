@@ -35,7 +35,7 @@ class Mail
 
             $this->mail->isHTML(true);
 
-            $this->mail->Subject = $game->getName();
+            $this->mail->Subject = $game::NAME;
             $this->mail->Body = $body;
 
             if ($this->mail->send()) {
