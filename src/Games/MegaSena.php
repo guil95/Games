@@ -2,11 +2,8 @@
 
 namespace App\Games;
 
-class MegaSena extends Game{
-
-    public function __construct()
-    {
-        $this->name = 'Mega Sena';
-        $this->url = Constants::MEGA_SENA_URL;
-    }
+class MegaSena implements Game
+{
+    const NAME = 'Mega Sena';
+    const URL = Constants::MEGA_SENA_URL;
 }

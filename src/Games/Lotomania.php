@@ -2,11 +2,8 @@
 
 namespace App\Games;
 
-class Lotomania extends Game{
-
-    public function __construct()
-    {
-        $this->name = 'Lotomania';
-        $this->url = Constants::LOTOMANIA_URL;
-    }
+class Lotomania implements Game
+{
+    const NAME = 'Lotomania';
+    const URL = Constants::LOTOMANIA_URL;
 }

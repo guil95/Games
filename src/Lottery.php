@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\CLI\GamesCLI;
 use App\Games\Constants;
 use App\Games\DiaDeSorte;
 use App\Games\DuplaSena;
@@ -11,7 +12,6 @@ use App\Games\Lotomania;
 use App\Games\MegaSena;
 use App\Games\Quina;
 use App\Games\Timemania;
-use App\CLI\GamesCLI;
 use App\Infra\Requesters\Mail;
 use App\Infra\Requesters\Requester;
 
@@ -69,14 +69,14 @@ final class Lottery
          * $game Game
          */
         foreach ($this->games as $key => $game) {
-            echo $key . '. ' . $game->getName() . PHP_EOL;
+            echo $key . '. ' . $game::NAME . PHP_EOL;
         }
     }
 
     private function setGame()
     {
         do {
-            $game = (int) GamesCLI::inputMessage('Select the game:');
+            $game = (int)GamesCLI::inputMessage('Select the game:');
         } while (
             !in_array(
                 $game,
@@ -90,7 +90,7 @@ final class Lottery
     private function setResult()
     {
         $this->result = Requester::getResult(
-            $this->game->getUrl()
+            $this->game::URL
         );
     }
 
@@ -128,7 +128,7 @@ final class Lottery
 
     private function resultToConsole(): string
     {
-        return PHP_EOL . 'Jogo: ' . $this->game->getName() .
+        return PHP_EOL . 'Jogo: ' . $this->game::NAME .
             PHP_EOL . 'Data: ' . $this->getDate() .
             PHP_EOL . 'Números Sorteados: ' . $this->retrieveNumbers() .
             PHP_EOL . 'Quantidade de ganhadores: ' . $this->getWinners() .
@@ -137,7 +137,7 @@ final class Lottery
 
     private function resultToEmail(): string
     {
-        return '<br> Jogo: ' . $this->game->getName() .
+        return '<br> Jogo: ' . $this->game::NAME .
             '<br> Data: ' . $this->getDate() .
             '<br> Números Sorteados: ' . $this->retrieveNumbers() .
             '<br> Quantidade de ganhadores: ' . $this->getWinners() .
