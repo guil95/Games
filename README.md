@@ -10,6 +10,8 @@ composer install or php composer.phar install
 
 ```
 make run
+or
+cd public && php index.php
 ```
 
 # Config for send e-mail
